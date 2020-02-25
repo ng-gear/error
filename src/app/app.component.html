@@ -1,0 +1,18 @@
+<div [formGroup]="mainForm">
+  <div class="field-container" nggErrorResolver>
+    <label>Name*</label>
+    <input formControlName="name" />
+    <div class="error" *nggError="let error">[{{error.type}}] {{error.message}}: {{error.data | json}}</div>
+  </div>
+
+  <div class="field-container" nggErrorResolver>
+    <label>Age*</label>
+    <input formControlName="age" />
+    <div class="error" *nggError="let error">[{{error.type}}] {{error.message}}: {{error.data | json}}</div>
+  </div>
+
+  <div>
+    <button (click)="markAllAsTouched()">mark all as touched</button>
+    <button (click)="markAllAsUntouched()">mark all as untouched</button>
+  </div>
+</div>
