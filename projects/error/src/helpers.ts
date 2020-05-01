@@ -3,10 +3,10 @@ import { fromPromise } from 'rxjs/internal-compatibility';
 
 import { AsyncResponse } from './lib/error-management-strategy';
 
-export const fromAsyncResponse = <T>(x: AsyncResponse<T>): Observable<T> => {
-  if (isObservable(x)) {
-    return x;
+export const fromAsyncResponse = <T>(res: AsyncResponse<T>): Observable<T> => {
+  if (isObservable(res)) {
+    return res;
   }
 
-  return fromPromise(Promise.resolve(x));
+  return fromPromise(Promise.resolve(res));
 };

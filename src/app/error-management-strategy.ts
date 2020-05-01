@@ -5,7 +5,7 @@ import { of, Observable } from 'rxjs';
 import { NggErrorManagementStrategy } from '../../projects/error/src/lib/error-management-strategy';
 
 const errorTypes = ['required', 'pattern', 'maxlength'];
-const errorMessages: any = {
+const ERROR_MESSAGES: any = {
   required: 'The field is required',
   pattern: 'Invalid format'
 };
@@ -15,16 +15,16 @@ export class ErrorManagementStrategy implements NggErrorManagementStrategy {
     return control.touched;
   }
 
-  getPriorErrorType(errors: ValidationErrors, path: string[] | null): Observable<string> {
+  getPriorErrorType(errors: ValidationErrors, identifier: string | null): Observable<string> {
     const errorType = errorTypes.find((type) => errors.hasOwnProperty(type))!;
     return of(errorType);
   }
 
-  getErrorMessage(errors: ValidationErrors, type: string, path: string[] | null): Promise<string> {
+  getErrorMessage(type: string, error: any, identifier: string | null): Promise<string> {
     if (type === 'maxlength') {
-      return Promise.resolve(`Should be less then ${errors[type].requiredLength}`);
+      return Promise.resolve(`Should be less then ${error.requiredLength}`);
     }
 
-    return Promise.resolve(errorMessages[type] ?? errors[type]);
+    return Promise.resolve(ERROR_MESSAGES[type] ?? error);
   }
 }

@@ -2,13 +2,18 @@
   <div class="field-container" nggErrorResolver>
     <label>Name*</label>
     <input formControlName="name" />
-    <div class="error" *nggError="let error">[{{error.type}}] {{error.message}}: {{error.data | json}}</div>
+
+    <div class="error" *nggError="let error">
+      [{{error.type}}] {{error.message}}: {{error.data | json}}
+    </div>
   </div>
 
   <div class="field-container" nggErrorResolver>
     <label>Age*</label>
     <input formControlName="age" />
-    <div class="error" *nggError="let error">[{{error.type}}] {{error.message}}: {{error.data | json}}</div>
+    <div class="error" *nggError="let error">
+      [{{error.type}}] {{error.message}}: {{error.data | json}}
+    </div>
   </div>
 
   <div>

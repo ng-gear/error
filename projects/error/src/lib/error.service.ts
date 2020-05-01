@@ -16,17 +16,25 @@ export class NggErrorService {
     this.managementStrategy = managementStrategy;
   }
 
-  showError(control: AbstractControl): boolean {
-    return !!control.errors && this.managementStrategy.showError(control.errors, control);
+  pathToIdentifier(path: string[] | null): string | null {
+    if (this.managementStrategy.pathToIdentifier) {
+      return this.managementStrategy.pathToIdentifier(path);
+    }
+
+    return path && path.join('-');
   }
 
-  getError({ errors }: AbstractControl, path: string[] | null): Observable<NggError | null> {
+  showError(control: AbstractControl, identifier: string | null): boolean {
+    return !!control.errors && this.managementStrategy.showError(control.errors, control, identifier);
+  }
+
+  getError({ errors }: AbstractControl, identifier: string | null): Observable<NggError | null> {
     if (!errors) {
       return of(null);
     }
 
-    return fromAsyncResponse(this.managementStrategy.getPriorErrorType(errors, path)).pipe(
-      switchMap((type) => fromAsyncResponse(this.managementStrategy.getErrorMessage(errors, type, path)).pipe(
+    return fromAsyncResponse(this.managementStrategy.getPriorErrorType(errors, identifier)).pipe(
+      switchMap((type) => fromAsyncResponse(this.managementStrategy.getErrorMessage(type, errors[type], identifier)).pipe(
         map((message) => new NggError(type, message, errors[type]))
       ))
     );
